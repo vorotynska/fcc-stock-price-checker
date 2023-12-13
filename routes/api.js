@@ -1,10 +1,13 @@
 'use strict';
+const express = require("express");
+const mongoose = require('mongoose');
+const Stock = require('../models');
+const router = express.Router();
 
-module.exports = function (app) {
+const {
+  getStock
+} = require("../controllers/stock");
 
-  app.route('/api/stock-prices')
-    .get(function (req, res){
-      
-    });
-    
-};
+router.route("/").get(getStock);
+
+module.exports = router;
