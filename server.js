@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+require('./db-connection');
 const apiRoutes = require('./routes/api.js');
 const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner');
@@ -11,8 +11,9 @@ const Stock = require("./models");
 const helmet = require("helmet");
 
 
+
 const app = express();
-require('./db-connection');
+
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
@@ -29,8 +30,8 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'"]
+        scriptSrc: ["'self'", "external-website.com"], //You should set the content security policies to only allow loading of scripts and CSS from your server.
+        styleSrc: ["'self'", "external-website.com"]
       }
     },
     dnsPrefetchControl: false
@@ -76,7 +77,7 @@ const listener = app.listen(process.env.PORT || 3000, function () {
         console.log('Tests are not valid:');
         console.error(e);
       }
-    }, 3500);
+    }, 5500);
   }
 });
 

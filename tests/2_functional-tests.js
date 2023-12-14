@@ -10,6 +10,7 @@ suite('Functional Tests', function () {
     test("Test GET /api/stock-prices with a valid NASDAQ symbol to as stock query parameter", (done) => {
         chai
             .request(server)
+            .keepOpen() //если надо добавить к остальным или убрать
             .get("/api/stock-prices?stock=GOOG")
             .end((err, res) => {
                 if (err) {
@@ -48,6 +49,7 @@ suite('Functional Tests', function () {
     test("Test GET /api/stock-prices where a valid return's stockData contains a stock symbol as a string, the price as a number and likes as a number", (done) => {
         chai
             .request(server)
+            .keepOpen()
             .get("/api/stock-prices?stock=GOOG")
             .end((err, res) => {
                 assert.equal(res.status, 200);
